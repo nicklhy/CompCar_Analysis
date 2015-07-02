@@ -1,0 +1,7 @@
+./data/*
+./cache/*
+./third-parties/*
+*.caffemodel
+*.pkl
+*.solverstate
+*.model
