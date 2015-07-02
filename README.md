@@ -37,17 +37,20 @@ Caffe build with mkl, cudnn is strongly recommended.
 ### Instructions
 1. Prepare the dataset
 Download the CompCar dataset at any place in you hard disk and build a soft link to our repo’s root directory as the name `data`:
+
     ```
     ln -s /path/to/CompCar /path/to/CompCar_Analysis/data
     ```
 
 2. Split and transform the original dataset into some specific forms
 To split the vehicle images for training and testing into different angles, use tools/split_viewpoints.py
+
     ```
     ./tools/split_viewpoints.py
     ```
 
 To crop all vehicles from the original images
+
     ```
     ./tools/generate_cropped_image.py 4
     # the argment `4` is the process num we use to accelerate the program, default is 2(multi-thread is useless in Python, thus, we choose multi-process).
@@ -55,12 +58,14 @@ To crop all vehicles from the original images
 
 To generate lmdb data for `caffe`
     * ./tools/generate_label_list.py will generate the label included list files for caffe, but it will be called in ./tools/generate_lmdb.sh which means you do not need to run it yourself.
+
     ```
     ./tools/generate_label_list.py data/train_test_split/classification/train.txt make
     # You can substitute `train.txt` to `${phase}${_viewpoint}.txt`({phase: [train, test], _viewpoints: [``, `_front`, `_rear`, `_side`, `_front_side`, `_rear_side`]}) and subsitute `make` to `${level}`({level: [make, model]}), which will generate a new `phase_viewpoint_level.txt` list file with labels after the image name.
     ```
 
     * ./tools/generate_lmdb.sh will generate the lmdb data of different phases, viewpoints and level. Just run it in the root directory of repo `CompCar_Analysis`.
+
     ```
     ./tools/generate_lmdb.sh
     ```
