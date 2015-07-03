@@ -54,7 +54,7 @@ Download the CompCar dataset at any place in you hard disk and build a soft link
 
     ```
     ./tools/generate_cropped_image.py 4
-    # the argment `4` is the process num we use to accelerate the program, default is 2(multi-thread is useless in Python, thus, we choose multi-process).
+    # the argument `4` is the process num we use to accelerate the program, default is 2(multi-thread is useless in Python, thus, we choose multi-process).
     ```
 
 * To generate lmdb data for `caffe`
@@ -62,7 +62,7 @@ Download the CompCar dataset at any place in you hard disk and build a soft link
 
     ```
     ./tools/generate_label_list.py data/train_test_split/classification/train.txt make
-    # You can substitute `train.txt` to `${phase}${_viewpoint}.txt`({phase: [train, test], _viewpoints: [``, `_front`, `_rear`, `_side`, `_front_side`, `_rear_side`]}) and subsitute `make` to `${level}`({level: [make, model]}), which will generate a new `phase_viewpoint_level.txt` list file with labels after the image name.
+    # You can substitute `${phase}${_viewpoint}.txt`({phase: [train, test], _viewpoints: [``, `_front`, `_rear`, `_side`, `_front_side`, `_rear_side`]}) for `train.txt` and subsitute `${level}`({level: [make, model]}) for `make`, which will generate a new `phase_viewpoint_level.txt` list file with labels after the image name.
     ```
 
     ./tools/generate_lmdb.sh will generate the lmdb data of different phases, viewpoints and level. Just run it in the root directory of repo `CompCar_Analysis`.
