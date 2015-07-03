@@ -1,2 +1,0 @@
-# /home/lhy/Documents/Codes/Libs/caffe/build/tools/caffe train --gpu=1 --solver=models/bvlc_googlenet/solver.prototxt --weights=models/bvlc_googlenet/bvlc_googlenet_compcar_make_iter_40000.caffemodel
-/home/lhy/Documents/Codes/Libs/caffe/build/tools/caffe train --gpu=1 --solver=models/bvlc_googlenet/solver.prototxt --weights=/home/lhy/Documents/Codes/Libs/caffe/models/bvlc_googlenet/bvlc_googlenet.caffemodel

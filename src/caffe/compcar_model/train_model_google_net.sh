@@ -1,1 +1,0 @@
-/home/lhy/Documents/Codes/Libs/caffe/build/tools/caffe train --gpu=1 --solver=models/bvlc_googlenet/solver.prototxt --weights=/home/lhy/Documents/Codes/Libs/caffe/models/bvlc_googlenet/bvlc_googlenet.caffemodel
