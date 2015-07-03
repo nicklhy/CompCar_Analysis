@@ -12,10 +12,10 @@ import google.protobuf as pb2
 
 class ModelTrainer:
     """docstring for ModelTrainer"""
-    def __init__(self, task, level, solver_prototxt, pretrained_model=None, gpu_id=0, data_root='./data'):
+    def __init__(self, task, level, solver_prototxt, mean_file = None, pretrained_model=None, gpu_id=0, data_root='./data'):
         if gpu_id >= 0:
-            caffe.set_mode_gpu()
             caffe.set_device(args.gpu_id)
+            caffe.set_mode_gpu()
         else:
             caffe.set_mode_cpu()
         self.model_dir = os.path.dirname(solver_prototxt)
@@ -29,6 +29,8 @@ class ModelTrainer:
         self.transformer.set_transpose('data', (2, 0, 1))
         self.transformer.set_raw_scale('data', 255)
         self.transformer.set_channel_swap('data', (2, 1, 0))
+        if mean_file:
+            self.transformer.set_mean('data', np.load(mean_file))
 
         self.data_root = data_root
 
@@ -55,15 +57,22 @@ class ModelTrainer:
             X[i, :, :, :] = self.transformer.preprocess('data', caffe.io.load_image(img))
         return X
 
+    # prepare random or pre-defined batch_size data
     def prepare_batch_data(self, phase='train', idx=None):
         if phase=='train':
-            train_idx = np.random.permutation(np.arange(len(self.train_gt)))[:self.train_batch_size]
+            if idx is not None:
+                train_idx = idx
+            else:
+                train_idx = np.random.permutation(np.arange(len(self.train_gt)))[:self.train_batch_size]
             train_list = np.array([os.path.join(self.data_root, 'cropped_image', x[0]) for x in self.train_gt])[train_idx]
             self.train_Y = np.array([int(x[1]) for x in self.train_gt], dtype=np.float32)[train_idx]
             self.train_X = self.read_images(train_list)
             self.solver.net.set_input_arrays(self.train_X, self.train_Y)
         elif phase=='test':
-            test_idx = np.random.permutation(np.arange(len(self.test_gt)))[:self.test_batch_size]
+            if idx is not None:
+                test_idx = idx
+            else:
+                test_idx = np.random.permutation(np.arange(len(self.test_gt)))[:self.test_batch_size]
             test_list = np.array([os.path.join(self.data_root, 'cropped_image', x[0]) for x in self.test_gt])[test_idx]
             self.test_Y = np.array([int(x[1]) for x in self.train_gt], dtype=np.float32)[test_idx]
             self.test_X = self.read_images(test_list)
@@ -82,12 +91,28 @@ class ModelTrainer:
                 print 'speed: {:.3f}s / iter'.format((t2-t1)/self.solver_param.display)
                 t1 = t2
             if self.solver.iter % (self.solver_param.test_interval) == 0:
-                print '########## test begin ##########'
-                self.prepare_batch_data('test')
-                self.solver.test_nets[0].forward()
-                print 'loss3/top-1: %f' % self.solver.test_nets[0].blobs['loss3/top-1'].data[0]
-                print 'loss3/top-5: %f' % self.solver.test_nets[0].blobs['loss3/top-5'].data[0]
-                print '########## test finished ##########'
+                print '#################### test begin ####################'
+                t5 = time.time()
+                test_num = len(self.test_gt)
+                iter_num = int(np.ceil(test_num*1.0/self.test_batch_size))
+                s1 = 0.0
+                s5 = 0.0
+                for i in xrange(iter_num):
+                    if (i+1)*self.test_batch_size>test_num:
+                        ids = np.hstack([np.arange(i*self.test_batch_size, test_num),
+                                         np.arange(0, (i+1)*self.test_batch_size%test_num)])
+                    else:
+                        ids = np.arange(i*self.test_batch_size, (i+1)*self.test_batch_size)
+                    self.prepare_batch_data('test', ids)
+                    self.solver.test_nets[0].forward()
+                    s1 += self.solver.test_nets[0].blobs['loss3/top-1'].data[0]
+                    s5 += self.solver.test_nets[0].blobs['loss3/top-5'].data[0]
+                s1 /= iter_num
+                s5 /= iter_num
+                print 'loss3/top-1: %f' % s1
+                print 'loss3/top-5: %f' % s5
+                t6 = time.time()
+                print '#################### test finished in %f seconds ####################' % (t6-t5)
             if self.solver.iter % self.solver_param.snapshot == 0:
                 model_path = os.path.join(self.model_dir,
                                           '%d.caffemodel' % self.solver.iter)
@@ -115,5 +140,11 @@ if __name__ == '__main__':
     solver_prototxt = 'models/compcar'+task_str+level_str+'/solver.prototxt'
     pretrained_model = 'models/bvlc_googlenet.caffemodel'
 
-    trainer = ModelTrainer(args.task, args.level, solver_prototxt, pretrained_model, args.gpu_id, data_root='data')
+    trainer = ModelTrainer(args.task,
+                           args.level,
+                           solver_prototxt,
+                           mean_file='data/train_test_split/classification/mean_value.npy',
+                           pretrained_model=pretrained_model,
+                           gpu_id=args.gpu_id,
+                           data_root='data')
     trainer.train_model()
