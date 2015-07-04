@@ -144,6 +144,9 @@ if __name__ == '__main__':
     solver_prototxt = 'models/compcar'+task_str+level_str+'/solver.prototxt'
     pretrained_model = 'models/bvlc_googlenet.caffemodel'
 
+    assert(os.path.exists(solver_prototxt) and
+           os.path.exists(pretrained_model))
+
     trainer = ModelTrainer(args.task,
                            args.level,
                            solver_prototxt,
