@@ -8,7 +8,7 @@ import cPickle
 import numpy as np
 import scipy.io as sio
 
-CAFFE_ROOT = '/home/lhy/Documents/Codes/Libs/caffe'
+CAFFE_ROOT = 'third-parties/caffe'
 sys.path.insert(0, os.path.join(CAFFE_ROOT, 'python'))
 import caffe
 
