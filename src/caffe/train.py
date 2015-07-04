@@ -96,7 +96,8 @@ class ModelTrainer:
                 test_num = len(self.test_gt)
                 iter_num = int(np.ceil(test_num*1.0/self.test_batch_size))
                 s1 = 0.0
-                s5 = 0.0
+                s2 = 0.0
+                s3 = 0.0
                 for i in xrange(iter_num):
                     if (i+1)*self.test_batch_size>test_num:
                         ids = np.hstack([np.arange(i*self.test_batch_size, test_num),
@@ -105,12 +106,15 @@ class ModelTrainer:
                         ids = np.arange(i*self.test_batch_size, (i+1)*self.test_batch_size)
                     self.prepare_batch_data('test', ids)
                     self.solver.test_nets[0].forward()
-                    s1 += self.solver.test_nets[0].blobs['loss3/top-1'].data[0]
-                    s5 += self.solver.test_nets[0].blobs['loss3/top-5'].data[0]
+                    s1 += self.solver.test_nets[0].blobs['loss1/loss1'].data.item()
+                    s2 += self.solver.test_nets[0].blobs['loss2/loss1'].data.item()
+                    s3 += self.solver.test_nets[0].blobs['loss3/loss3'].data.item()
                 s1 /= iter_num
-                s5 /= iter_num
-                print 'loss3/top-1: %f' % s1
-                print 'loss3/top-5: %f' % s5
+                s2 /= iter_num
+                s3 /= iter_num
+                print 'loss1/loss1: %f' % s1
+                print 'loss2/loss1: %f' % s2
+                print 'loss3/loss3: %f' % s3
                 t6 = time.time()
                 print '#################### test finished in %f seconds ####################' % (t6-t5)
             if self.solver.iter % self.solver_param.snapshot == 0:

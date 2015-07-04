@@ -8,7 +8,7 @@ layer {
     phase: TRAIN
   }
   memory_data_param {
-    batch_size: 128
+    batch_size: 64
     channels: 3
     height: 224
     width: 224
