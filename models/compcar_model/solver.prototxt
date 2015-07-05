@@ -1,0 +1,16 @@
+net: "models/compcar_model/train_val.prototxt"
+test_iter: 126
+test_interval: 10000
+test_initialization: false
+display: 40
+average_loss: 40
+base_lr: 0.0005
+lr_policy: "step"
+stepsize: 60000
+gamma: 0.7
+max_iter: 10000000
+momentum: 0.9
+weight_decay: 0.0002
+snapshot: 40000
+snapshot_prefix: "models/compcar_model/bvlc_googlenet_compcar_model"
+solver_mode: GPU
