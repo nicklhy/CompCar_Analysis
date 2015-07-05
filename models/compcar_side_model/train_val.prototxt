@@ -16,13 +16,13 @@ layer {
 }
 layer {
   name: "data"
-  type: "Data"
+  type: "MemoryData"
   top: "data"
   top: "label"
   include {
     phase: TEST
   }
-  data_param {
+  memory_data_param {
     batch_size: 50
     channels: 3
     height: 224
