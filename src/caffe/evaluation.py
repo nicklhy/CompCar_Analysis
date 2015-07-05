@@ -32,11 +32,11 @@ if args.task == 'all':
 else:
     task_str = '_'+args.task
 level_str = '_'+args.level
-solver_prototxt = 'models/compcar'+task_str+level_str+'/solver.prototxt'
-model_files = os.listdir(os.path.join('models',
-                                      'compcar'+task_str+level_str))
+solver_prototxt = 'models/compcar'+task_str+level_str+'/deploy.prototxt'
+models_dir = os.path.join('models', 'compcar'+task_str+level_str)
+model_files = os.listdir(models_dir)
 model_files = filter(lambda s: s[-11:] == '.caffemodel', model_files)
-pretrained_model = model_files[-1]
+pretrained_model = os.path.join(models_dir, model_files[-1])
 
 
 if not os.path.exists('./data'):

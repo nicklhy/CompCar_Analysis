@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os, sys
 import argparse
 import time
@@ -90,7 +92,8 @@ class ModelTrainer:
                 t2 = time.time()
                 print 'speed: {:.3f}s / iter'.format((t2-t1)/self.solver_param.display)
                 t1 = t2
-            if self.solver.iter % (self.solver_param.test_interval) == 0:
+            # if self.solver.iter % (self.solver_param.test_interval) == 0:
+            if True:
                 print '#################### test begin ####################'
                 t5 = time.time()
                 test_num = len(self.test_gt)
