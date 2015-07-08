@@ -36,13 +36,16 @@ solver_prototxt = 'models/compcar'+task_str+level_str+'/deploy.prototxt'
 models_dir = os.path.join('models', 'compcar'+task_str+level_str)
 model_files = os.listdir(models_dir)
 model_files = filter(lambda s: s[-11:] == '.caffemodel', model_files)
+if len(model_files)==0:
+    print 'No model files!'
+    sys.exit(-1)
 pretrained_model = os.path.join(models_dir, model_files[-1])
 
 
 if not os.path.exists('./data'):
     os.mkdir('data')
 
-res_file = 'cache/'+task_str+level_str+'_det_res.pkl'
+res_file = 'cache/compcar'+task_str+level_str+'_det_res.pkl'
 DATA_ROOT = 'data'
 im_list_file = 'data/train_test_split/classification/test'+task_str+level_str+'.txt'
 
@@ -59,7 +62,7 @@ filter_ids = [x+1 for x in filter_ids]
 if args.level == 'make':
     CLASS_NUM = len(makes)
 elif args.level == 'model':
-    CLASSES_NUM = len(filter_ids)
+    CLASS_NUM = len(filter_ids)
 
 
 if os.path.exists(res_file):
