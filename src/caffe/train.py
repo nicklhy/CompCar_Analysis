@@ -60,12 +60,12 @@ class ModelTrainer:
         return X
 
     # prepare random or pre-defined batch_size data
-    def prepare_batch_data(self, phase='train', idx=None):
+    def prepare_batch_data(self, phase='train', idx=None, batch_num=1):
         if phase=='train':
             if idx is not None:
                 train_idx = idx
             else:
-                train_idx = np.random.permutation(np.arange(len(self.train_gt)))[:self.train_batch_size]
+                train_idx = np.random.permutation(np.arange(len(self.train_gt)))[:self.train_batch_size*batch_num]
             train_list = np.array([os.path.join(self.data_root, 'cropped_image', x[0]) for x in self.train_gt])[train_idx]
             self.train_Y = np.array([int(x[1]) for x in self.train_gt], dtype=np.float32)[train_idx]
             self.train_X = self.read_images(train_list)
@@ -74,7 +74,7 @@ class ModelTrainer:
             if idx is not None:
                 test_idx = idx
             else:
-                test_idx = np.random.permutation(np.arange(len(self.test_gt)))[:self.test_batch_size]
+                test_idx = np.random.permutation(np.arange(len(self.test_gt)))[:self.test_batch_size*batch_num]
             test_list = np.array([os.path.join(self.data_root, 'cropped_image', x[0]) for x in self.test_gt])[test_idx]
             self.test_Y = np.array([int(x[1]) for x in self.train_gt], dtype=np.float32)[test_idx]
             self.test_X = self.read_images(test_list)
@@ -82,12 +82,13 @@ class ModelTrainer:
 
     def train_model(self):
         t1 = time.time()
+        assert(self.solver_param.average_loss>=1)
         while self.solver.iter < self.solver_param.max_iter:
             # t3 = time.time()
-            self.prepare_batch_data('train')
+            self.prepare_batch_data('train', batch_num = self.solver_param.average_loss)
             # t4 = time.time()
             # print 'read training batch in %f seconds' % (t4-t3)
-            self.solver.step(1)
+            self.solver.step(self.solver_param.average_loss)
             if self.solver.iter % self.solver_param.display == 0:
                 t2 = time.time()
                 print 'speed: {:.3f}s / iter'.format((t2-t1)/self.solver_param.display)
