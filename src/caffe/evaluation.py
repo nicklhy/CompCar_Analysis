@@ -105,3 +105,22 @@ for img, label, y, scores in det_res:
         hit_num[int(label)-1] += 1
 
 print 'rank %d average recognition rate = %f(%d/%d)\n' % (args.rank_num, 1.0*total_hit_num/total_num, total_hit_num, total_num)
+
+
+'''
+# display the recognition result
+import matplotlib.pyplot as plt
+
+plt.title('Recognition rate')
+plt.xlabel('Class ID')
+plt.ylabel('Sample number')
+
+non_zero_ids = num!=0
+hit_num = hit_num[non_zero_ids]
+num = num[non_zero_ids]
+plt.bar(range(sum(non_zero_ids)), num, color='b', alpha=0.5, label='total num')
+plt.bar(range(sum(non_zero_ids)), hit_num, color='r', alpha=0.7, label='hit num')
+plt.legend()
+plt.savefig(res_file.replace('pkl', 'png'), dpi=100)
+plt.show()
+'''

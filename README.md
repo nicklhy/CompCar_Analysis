@@ -1,4 +1,4 @@
-# Some classification experiments evaluated on the newly published CompCar dataset
+# Some experiments evaluated on the newly published CompCar dataset
 Created by nicklhy(at gmail dot com)
 
 Dataset reference
@@ -71,3 +71,7 @@ Download the CompCar dataset at any place in you hard disk and build a soft link
     <!-- ./tools/generate_lmdb.sh -->
     <!-- ``` -->
 
+3. Train a CNN classifier:
+* src/caffe/train.py: classifier training code
+* src/caffe/evaluation.py: classifier evaluation code
+* src/caffe/extract_deep_feature.py: CNN feature extractor

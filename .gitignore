@@ -5,3 +5,5 @@
 *.pkl
 *.solverstate
 *.model
+*.png
+*.jpg
