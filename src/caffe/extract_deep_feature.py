@@ -10,7 +10,7 @@ CAFFE_ROOT = 'third-parties/caffe'
 sys.path.insert(0, os.path.join(CAFFE_ROOT, 'python'))
 import caffe
 
-parser = argparse.ArgumentParser(description='Train a caffe model')
+parser = argparse.ArgumentParser(description='extract deep feature')
 parser.add_argument('--list_file', dest='list_file',
                     help='image list file', type=str)
 parser.add_argument('--data_dir', dest='data_dir',

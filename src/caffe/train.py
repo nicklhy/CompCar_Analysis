@@ -65,6 +65,7 @@ class ModelTrainer:
             if idx is not None:
                 train_idx = idx
             else:
+                assert(batch_num*self.train_batch_size<len(self.train_gt))
                 train_idx = np.random.permutation(np.arange(len(self.train_gt)))[:self.train_batch_size*batch_num]
             train_list = np.array([os.path.join(self.data_root, 'cropped_image', x[0]) for x in self.train_gt])[train_idx]
             self.train_Y = np.array([int(x[1]) for x in self.train_gt], dtype=np.float32)[train_idx]
