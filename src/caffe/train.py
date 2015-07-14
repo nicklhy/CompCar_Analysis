@@ -122,10 +122,10 @@ class ModelTrainer:
                 print 'loss3/loss3: %f' % s3
                 t6 = time.time()
                 print '#################### test finished in %f seconds ####################' % (t6-t5)
-            if self.solver.iter % self.solver_param.snapshot == 0:
-                model_path = os.path.join(self.model_dir,
-                                          '%d.caffemodel' % self.solver.iter)
-                self.solver.net.save(model_path)
+            # if self.solver.iter % self.solver_param.snapshot == 0:
+                # model_path = os.path.join(self.model_dir,
+                                          # '%d.caffemodel' % self.solver.iter)
+                # self.solver.net.save(model_path)
 
 
 if __name__ == '__main__':
