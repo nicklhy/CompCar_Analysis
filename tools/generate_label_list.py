@@ -14,6 +14,10 @@ make_model_name = sio.loadmat(os.path.join(DATA_PATH, 'misc', 'make_model_name.m
 makes = make_model_name['make_names'].tolist()
 raw_models = make_model_name['model_names'].tolist()
 models = filter(lambda s: isinstance(s, unicode) or isinstance(s, str), raw_models)
+if level=='make':
+    print 'CLASS_NUM = %d' % len(makes)
+else:
+    print 'CLASS_NUM = %d' % len(models)
 
 with open(sys.argv[1]) as lt_fd:
     with open(sys.argv[1].replace('.txt', '_'+level+'.txt'), 'w') as lb_fd:
