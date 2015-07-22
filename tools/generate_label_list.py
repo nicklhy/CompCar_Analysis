@@ -14,22 +14,34 @@ make_model_name = sio.loadmat(os.path.join(DATA_PATH, 'misc', 'make_model_name.m
 makes = make_model_name['make_names'].tolist()
 raw_models = make_model_name['model_names'].tolist()
 models = filter(lambda s: isinstance(s, unicode) or isinstance(s, str), raw_models)
+rmodel2type = dict()
+with open(os.path.join(DATA_PATH, 'misc', 'attributes.txt')) as fd:
+    lines = fd.readlines()
+    lines = lines[1:]
+    for line in lines:
+        t = line.strip().split(' ')
+        rmodel2type[int(t[0])] = int(t[-1])
+
 if level=='make':
     print 'CLASS_NUM = %d' % len(makes)
-else:
+elif level=='model':
     print 'CLASS_NUM = %d' % len(models)
+elif level=='type':
+    print 'CLASS_NUM = %d' % 12
+else:
+    print 'Wrong level'
+    sys.exit(-1)
 
 with open(sys.argv[1]) as lt_fd:
     with open(sys.argv[1].replace('.txt', '_'+level+'.txt'), 'w') as lb_fd:
         for img_path in lt_fd.readlines():
             img_path = img_path.strip()
-            make, model, year, img_name = img_path.split('/')
+            make, raw_model, year, img_name = img_path.split('/')
             if level == 'make':
                 cls_ind = int(make)-1
             elif level == 'model':
-                cls_name = raw_models[int(model)-1]
+                cls_name = raw_models[int(raw_model)-1]
                 cls_ind = models.index(cls_name)
-            else:
-                print 'Wrong level'
-                sys.exit(-1)
+            elif level == 'type':
+                cls_ind = rmodel2type[int(raw_model)]-1
             lb_fd.write('%s %d\n' % (img_path, cls_ind))

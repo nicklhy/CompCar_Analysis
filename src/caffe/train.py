@@ -42,7 +42,8 @@ class ModelTrainer:
         assert(task in ['all', 'front',
                         'rear', 'side',
                         'front_side', 'rear_side'])
-        assert(level in ['make', 'model'])
+        assert(level in ['make', 'model', 'type'])
+        assert(level != 'type' or task=='all')
         if task == 'all':
             self.task_str = ''
         else:
