@@ -27,6 +27,7 @@ parser.add_argument('--level', dest='level',
                     default='make', type=str)
 args = parser.parse_args()
 
+assert(args.level!='type' or args.task=='all')
 if args.task == 'all':
     task_str = ''
 else:
