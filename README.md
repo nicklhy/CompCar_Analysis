@@ -16,6 +16,7 @@ Dataset reference
 2. Model level recognition rate
 ![Alt text](https://github.com/nicklhy/CompCar_Analysis/blob/master/pics/model_result.png)
 3. All results(table)
+
 |Make (Top 1)   |   Front   |   Rear    |   Side    |   FS      |   RS      |   All     |
 |:-------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 |GoogleNet      |   0.946   |   0.885   |   0.804   |   0.906   |   0.857   |   0.844   |
