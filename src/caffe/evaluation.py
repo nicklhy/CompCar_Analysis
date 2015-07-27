@@ -25,6 +25,9 @@ parser.add_argument('--task', dest='task',
 parser.add_argument('--level', dest='level',
                     help='make model',
                     default='make', type=str)
+parser.add_argument('--weights', dest='weights',
+                    help='pretrained model',
+                    default='', type=str)
 args = parser.parse_args()
 
 assert(args.level!='type' or args.task=='all')
@@ -34,13 +37,16 @@ else:
     task_str = '_'+args.task
 level_str = '_'+args.level
 solver_prototxt = 'models/compcar'+task_str+level_str+'/deploy.prototxt'
-models_dir = os.path.join('models', 'compcar'+task_str+level_str)
-model_files = os.listdir(models_dir)
-model_files = filter(lambda s: s[-11:] == '.caffemodel', model_files)
-if len(model_files)==0:
-    print 'No model files!'
-    sys.exit(-1)
-pretrained_model = os.path.join(models_dir, model_files[-1])
+if args.weights=='':
+    models_dir = os.path.join('models', 'compcar'+task_str+level_str)
+    model_files = os.listdir(models_dir)
+    model_files = filter(lambda s: s[-11:] == '.caffemodel', model_files)
+    if len(model_files)==0:
+        print 'No model files!'
+        sys.exit(-1)
+    pretrained_model = os.path.join(models_dir, model_files[-1])
+else:
+    pretrained_model = args.weights
 
 
 if not os.path.exists('./data'):
@@ -64,6 +70,8 @@ if args.level == 'make':
     CLASS_NUM = len(makes)
 elif args.level == 'model':
     CLASS_NUM = len(filter_ids)
+elif args.level == 'type':
+    CLASS_NUM = 12
 
 
 if os.path.exists(res_file):
