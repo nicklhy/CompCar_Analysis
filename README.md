@@ -10,6 +10,30 @@ Dataset reference
     year = {2015}
 }
 
+### Experimental Results
+1. Make level recognition rate
+![Alt text](https://github.com/CompCar_Analysis/pics/make_result.png)
+2. Model level recognition rate
+![Alt text](https://github.com/CompCar_Analysis/pics/model_result.png)
+3. All results(table)
+|Make (Top 1)   |   Front   |   Rear    |   Side    |   FS      |   RS      |   All     |
+|:-------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|GoogleNet      |   0.946   |   0.885   |   0.804   |   0.906   |   0.857   |   0.844   |
+|VGG16          |   0.953   |   0.949   |   0.259   |   0.777   |   0.789   |   0.767   |
+|Overfeat       |   0.710   |   0.521   |   0.507   |   0.680   |   0.656   |   0.829   |
+
+|Model (Top 1)  |   Front   |   Rear    |   Side    |   FS      |   RS      |   All     |
+|:-------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|GoogleNet      |   0.814   |   0.841   |   0.840   |   0.881   |   0.871   |   0.914   |
+|VGG16          |   0.845   |   0.888   |   0.232   |   0.750   |   0.756   |   0.718   |
+|Overfeat       |   0.524   |   0.431   |   0.428   |   0.680   |   0.598   |   0.767   |
+
+|Model (Top 5)  |   Front   |   Rear    |   Side    |   FS      |   RS      |   All     |
+|:-------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|GoogleNet      |   0.831   |   0.851   |   0.854   |   0.893   |   0.883   |   0.926   |
+|VGG16          |   0.868   |   0.899   |   0.235   |   0.766   |   0.760   |   0.746   |
+|Overfeat       |   0.748   |   0.647   |   0.602   |   0.769   |   0.777   |   0.917   |
+
 ### Introduction
 
 ### Requirements
@@ -76,21 +100,3 @@ Download the CompCar dataset at any place in you hard disk and build a soft link
 * src/caffe/evaluation.py: classifier evaluation code
 * src/caffe/extract_deep_feature.py: CNN feature extractor
 
-### Experimental Results
-|Make (Top 1)   |   Front   |   Rear    |   Side    |   FS      |   RS      |   All     |
-|:-------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
-|GoogleNet      |   0.946   |   0.885   |   0.804   |   0.906   |   0.857   |   0.844   |
-|VGG16          |   0.953   |   0.949   |   0.259   |   0.777   |   0.789   |   0.767   |
-|Overfeat       |   0.710   |   0.521   |   0.507   |   0.680   |   0.656   |   0.829   |
-
-|Model (Top 1)  |   Front   |   Rear    |   Side    |   FS      |   RS      |   All     |
-|:-------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
-|GoogleNet      |   0.814   |   0.841   |   0.840   |   0.881   |   0.871   |   0.914   |
-|VGG16          |   0.845   |   0.888   |   0.232   |   0.750   |   0.756   |   0.718   |
-|Overfeat       |   0.524   |   0.431   |   0.428   |   0.680   |   0.598   |   0.767   |
-
-|Model (Top 5)  |   Front   |   Rear    |   Side    |   FS      |   RS      |   All     |
-|:-------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
-|GoogleNet      |   0.831   |   0.851   |   0.854   |   0.893   |   0.883   |   0.926   |
-|VGG16          |   0.868   |   0.899   |   0.235   |   0.766   |   0.760   |   0.746   |
-|Overfeat       |   0.748   |   0.647   |   0.602   |   0.769   |   0.777   |   0.917   |
