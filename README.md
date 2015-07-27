@@ -12,9 +12,9 @@ Dataset reference
 
 ### Experimental Results
 1. Make level recognition rate
-![Alt text](https://github.com/CompCar_Analysis/pics/make_result.png)
+![Alt text](https://github.com/nicklhy/CompCar_Analysis/blob/master/pics/make_result.png)
 2. Model level recognition rate
-![Alt text](https://github.com/CompCar_Analysis/pics/model_result.png)
+![Alt text](https://github.com/nicklhy/CompCar_Analysis/blob/master/pics/model_result.png)
 3. All results(table)
 |Make (Top 1)   |   Front   |   Rear    |   Side    |   FS      |   RS      |   All     |
 |:-------------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
