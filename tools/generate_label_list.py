@@ -44,4 +44,6 @@ with open(sys.argv[1]) as lt_fd:
                 cls_ind = models.index(cls_name)
             elif level == 'type':
                 cls_ind = rmodel2type[int(raw_model)]-1
+                if cls_ind==-1:
+                    cls_ind = 12
             lb_fd.write('%s %d\n' % (img_path, cls_ind))
