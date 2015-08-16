@@ -20,15 +20,17 @@ parser.add_argument('--level', dest='level',
 parser.add_argument('--gpu_id', dest='gpu_id',
                     help='GPU device to use [0]',
                     default=0, type=int)
+parser.add_argument('--threshold', dest='threshold',
+                    help='threshold',
+                    default=-100, type=int)
 args = parser.parse_args()
 
-if args.level == 'easy':
+if args.level=='easy' or args.level=='medium' or args.level=='hard':
     test_file = os.path.join(ROOT_DIR, 'data/train_test_split/verification/verification_pairs_%s.txt' % args.level)
 else:
     print 'level can only be easy, medium or hard'
     sys.exit(-1)
 
-gpu_id = 1
 model_def = 'models/compcar_model/deploy.prototxt'
 model_weights = 'models/compcar_model/bvlc_googlenet_compcar_model_iter_200000.caffemodel'
 
@@ -62,7 +64,7 @@ else:
 
 print 'Initializing CNN ...'
 caffe.set_mode_gpu()
-caffe.set_device(gpu_id)
+caffe.set_device(args.gpu_id)
 net = caffe.Net(model_def, model_weights, caffe.TEST)
 transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
 transformer.set_transpose('data', (2, 0, 1))
@@ -75,7 +77,6 @@ N = len(test_list)
 preds = np.zeros((N,))
 gts = np.array(map(lambda t: int(t[-1]), test_list))
 hit_num = 0
-threshold = -136
 for i, test_data in enumerate(test_list):
     gt = int(test_data[-1])
     t1 = time.time()
@@ -87,7 +88,7 @@ for i, test_data in enumerate(test_list):
     t2 = time.time()
     preds[i] = jb.verify(A, G, x1, x2)
     t3 = time.time()
-    if (preds[i]>threshold and gt==1) or(preds[i]<threshold and gt==0):
+    if (preds[i]>args.threshold and gt==1) or(preds[i]<args.threshold and gt==0):
         hit_num = hit_num+1
 
     if (i+1)%100==0:
