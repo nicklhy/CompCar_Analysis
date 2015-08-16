@@ -1,4 +1,4 @@
-# Some experiments evaluated on the newly published CompCar dataset
+# Some experiments evaluated on CompCar dataset
 Created by nicklhy(at gmail dot com)
 
 Dataset reference
