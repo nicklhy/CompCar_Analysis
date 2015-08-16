@@ -25,6 +25,9 @@ parser.add_argument('--model_def', dest='model_def',
 parser.add_argument('--weights', dest='weights',
                     help='model weights file',
                     default='models/bvlc_googlenet.caffemodel', type=str)
+parser.add_argument('--layer', dest='layer',
+                    help='feature layer name',
+                    default='pool5/7x7_s1', type=str)
 parser.add_argument('--gpu_id', dest='gpu_id',
                     help='GPU device to use [0]', default=0, type=int)
 args = parser.parse_args()
@@ -60,13 +63,13 @@ else:
 
     net.blobs['data'].reshape(1, 3, 224, 224)
 
-    feats = np.zeros([len(im_list), net.blobs['pool5/7x7_s1'].data.shape[1]])
+    feats = np.zeros([len(im_list), net.blobs[args.layer].data.shape[1]])
     print 'feature extraction begins ... ...'
     for i, img_path in enumerate(im_list):
         t1 = time.time()
         net.blobs['data'].data[...] = transformer.preprocess('data', caffe.io.load_image(img_path))
         out = net.forward()
-        feats[i, :] = net.blobs['pool5/7x7_s1'].data.flatten()
+        feats[i, :] = net.blobs[args.layer].data.flatten()
         t2 = time.time()
         print img_path+' finished in %f seconds' % (t2-t1)
     print 'feature extraction finished ... ...'

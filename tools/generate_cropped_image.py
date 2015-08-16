@@ -38,8 +38,15 @@ if len(sys.argv)>1:
     process_num = int(sys.argv[1])
 else:
     process_num = 2
-for f_name in ['./data/train_test_split/classification/train.txt',
-               './data/train_test_split/classification/test.txt']:
+
+img_list_file = [
+    # 'data/train_test_split/verification/verification_train.txt',
+    'data/train_test_split/verification/verification_list.txt',
+    # './data/train_test_split/classification/train.txt',
+    # './data/train_test_split/classification/test.txt',
+]
+
+for f_name in img_list_file:
     img_list = map(lambda s: s.strip(), open(f_name).readlines())
     print 'start processing %d images' % len(img_list)
     t1 = time.time()
